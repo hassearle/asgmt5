@@ -17,22 +17,22 @@ package Asgmt5 is
 	
 	-- returns sum of two binary arrays 
 	-- dont worry about overflows
-	function Plus_Overload(BINARY_ARRAY, BINARY_ARRAY) 
+	function Plus_Overload(BINARY_ARRAY: BINARY_ARRAY) 
 		return BINARY_ARRAY;
 
 	-- returns sum of binary array and int
-	function Plus_Overload(BINARY_ARRAY, INTEGER) 
+	function Plus_Overload(BINARY_ARRAY : INTEGER) 
 		return BINARY_ARRAY;
 
 	-- returns the difference of two binary arrays
 	-- subtract the second from the first parameter
-	function Minus_Overload(BINARY_ARRAY, BINARY_ARRAY) 
+	function Minus_Overload(BINARY_ARRAY : BINARY_ARRAY) 
 		return BINARY_ARRAY;
 
 
 	-- returns the difference of binary array and int
 	-- subtract the second from the first parameter
-	function Minus_Overload(BINARY_ARRAY, INTEGER) 
+	function Minus_Overload(BINARY_ARRAY : INTEGER) 
 		return BINARY_ARRAY;
 
 
