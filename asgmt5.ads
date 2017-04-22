@@ -1,5 +1,8 @@
+-- [1] Provided Samples: random.ads, Line 40
+
+
 generic 
-	type BINARY_ARRAY is digits <>; 
+	type INTEGER is digits <>; 
 
 package Asgmt5 is 
 
@@ -42,6 +45,11 @@ package Asgmt5 is
 
 	-- prints binary array to console
 	procedure Print_Bin_Arr(BINARY_ARRAY); 
+
+--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	
+	-- random number generator
+	function Random_Number return INTEGER; --SOURCE [1]
 
 
 end Asgmt5;
