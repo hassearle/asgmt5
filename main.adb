@@ -7,7 +7,8 @@ use Ada.Text_IO, Ada.Integer_Text_IO;
 procedure Main is
 
 	type BINARY_NUMBER is range 0..1;
-	BINARY_ARRAY : array(INTEGER range 0..15) of BINARY_NUMBER;
+
+	type BINARY_ARRAY is array(0..15) of BINARY_NUMBER;
 
 	A_Int : INTEGER;
 	A_Array: BINARY_ARRAY;
