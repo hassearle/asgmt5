@@ -13,7 +13,7 @@ procedure Main is
 	type BINARY_ARRAY is array(INTEGER range 0..15) of BINARY_NUMBER;
 
 	-- A_Int : INTEGER;
-	-- A_Array: BINARY_ARRAY;
+	A_Array: BINARY_ARRAY;
 	-- B_Array: BINARY_ARRAY;
 	-- C_Array: BINARY_ARRAY;
 	-- D_Array: BINARY_ARRAY;
@@ -128,7 +128,7 @@ procedure Main is
 
 			end Print_Bin_Arr; 
 
- -- --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+     --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		-- random number generator
 		function Random_Number return INTEGER is --SOURCE [2]
 			
@@ -152,6 +152,12 @@ begin
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 		Put(Random_Number);
+
+		for I in BINARY_ARRAY'Range loop --SOURCE [1]
+			A_Array(I) := BINARY_NUMBER(Random_Number);
+		end loop;
+
+		Put(A_Array(0));
 
 		-- BTI := Bin_To_Int(A_Array);
 		-- Put(BTI);
