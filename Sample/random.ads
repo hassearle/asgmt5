@@ -29,7 +29,7 @@ package Random is
         -- This procedure uses the system clock to set the seed.
    procedure Set_Seed;
 
-        -- This procedure sets the seed to the input value.
+        -- This procedure sets the see.d to the input value.
    procedure Force_Seed(Start_Seed : FLOAT_ITEM);
 
         -- This Function returns the current seed which is also

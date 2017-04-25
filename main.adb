@@ -14,6 +14,7 @@ procedure Main is
 
 	-- A_Int : INTEGER;
 	A_Array: BINARY_ARRAY;
+	Temp : BINARY_NUMBER;
 	-- B_Array: BINARY_ARRAY;
 	-- C_Array: BINARY_ARRAY;
 	-- D_Array: BINARY_ARRAY;
@@ -62,7 +63,7 @@ procedure Main is
 		-- prints binary array to console
 		procedure Print_Bin_Arr(X : BINARY_ARRAY);  
 		
-		function Random_Number return INTEGER;
+		function Random_Number return BINARY_NUMBER;
 	
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
    --IMPLEMENTATION 
@@ -130,14 +131,14 @@ procedure Main is
 
      --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		-- random number generator
-		function Random_Number return INTEGER is --SOURCE [2]
+		function Random_Number return BINARY_NUMBER is--SOURCE [2]
 			
 			--types for random number generator
-			subtype Rand_Range is INTEGER range 0..1;
-			package Rand_Int is new Ada.Numerics.discrete_Random(Rand_Range);
+			
+			package Rand_Int is new Ada.Numerics.discrete_Random(BINARY_NUMBER);
 			use Rand_Int;
 			G : Generator;
-			NUM : INTEGER; 
+			NUM : BINARY_NUMBER; 
 			begin
 				Reset(G);
 				NUM := Random(G);
@@ -151,14 +152,21 @@ begin
    --START OF MAIN
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-		Put(Random_Number);
+		Temp := Random_Number;
+
 
 		for I in BINARY_ARRAY'Range loop --SOURCE [1]
-			A_Array(I) := BINARY_NUMBER(Random_Number);
+			A_Array(I) := Random_Number;
+			Put(INTEGER'Image(INTEGER(A_Array(I))));
 		end loop;
 
-		Put(A_Array(0));
+		-- Temp := 1;
+		-- A_Array(0) := 1;
+		-- Put(INTEGER'Image(INTEGER(A_Array(0))));
 
+		--Put(INTEGER'Image(INTEGER(Temp)));	--print BINARY_NUMBER
+		--Put(INTEGER(Temp));
+		
 		-- BTI := Bin_To_Int(A_Array);
 		-- Put(BTI);
 		-- B_Array := Int_To_Bin;
@@ -172,18 +180,12 @@ begin
 
 end Main;
 
-
-
+	
+	
 
 	-- for I in BINARY_ARRAY'Range loop --SOURCE [1]
 	-- 	A_Array(I) := Random_Number;
 	-- end loop;
 
 
-	-- function Random_Number return BINARY_NUMBER is
-	-- 	Temp : BINARY_NUMBER;
-	-- 	begin
-	-- 		Temp := BINARY_NUMBER(1);
-	-- 		return Temp;
-	-- 	end Random_Number;
 

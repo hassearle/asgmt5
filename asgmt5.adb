@@ -4,8 +4,6 @@ use Ada.Text_IO, Ada.Integer_Text_IO;
 
 package body Asgmt5 is
 
-	--X_initial : BINARY_ARRAY := 0.0;
-	BIN_ARR : array(0..15) of BINARY_NUMBER;
 
 	function Bin_To_Int(X : BINARY_ARRAY) return INTEGER is
 		Temp : INTEGER;
