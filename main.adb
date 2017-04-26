@@ -65,7 +65,13 @@ procedure Main is
 		-- prints binary array to console
 		procedure Print_Bin_Arr(X : BINARY_ARRAY);  
 		
-		function Random_Number return BINARY_NUMBER;
+     --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+     --HELPER FUNCTION DEFINITIONS
+     --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+		function Random_Binary return BINARY_NUMBER;
+
+		function Random_Number return INTEGER;
 	
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
    --IMPLEMENTATION 
@@ -83,10 +89,9 @@ procedure Main is
 						Int := Int + 2**(Intt);
 					end if;
 				end loop;
-				-- if Int  null then
+				-- if Int  null then	--write an exception 
 				-- 	Int := 0;
 				-- end if;
-				Put(Int);
 				return Int; 
 			end Bin_To_Int;	
 
@@ -142,8 +147,11 @@ procedure Main is
 			end Print_Bin_Arr; 
 
      --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		-- random number generator
-		function Random_Number return BINARY_NUMBER is--SOURCE [2]
+     -- HELPER FUNCTIONS
+     --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		
+		-- random binary number generator
+		function Random_Binary return BINARY_NUMBER is--SOURCE [2]
 			package Rand_Int is new Ada.Numerics.discrete_Random(BINARY_NUMBER);
 			use Rand_Int;
 			G : Generator;
@@ -152,33 +160,45 @@ procedure Main is
 				Reset(G);
 				NUM := Random(G);
 				return NUM;
+			end Random_Binary;
+
+		-- random integer number generator 
+		function Random_Number return INTEGER is
+			type NUM is range 0..65535;
+			NUMM : NUM; 
+			INT : INTEGER;
+			package Rand_Int is new Ada.Numerics.discrete_Random(NUM);
+			use Rand_Int;
+			G : Generator;
+			begin -- Random_Number
+				Reset(G);
+				NUMM := Random(G);
+				INT := INTEGER(NUMM);
+				return INT;
 			end Random_Number;
-	
+
 begin
 	
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
    --START OF MAIN
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+   		--generates array
+		Put("Printing Random Array A_Array");
+		Put_Line("");
 
 		for I in BINARY_ARRAY'Range loop --SOURCE [1]
-			A_Array(I) := Random_Number;
+			A_Array(I) := Random_Binary;
 			Put(INTEGER'Image(INTEGER(A_Array(I)))); --SOURCE [3]
-			Put_Line("");
+			--Put_Line("");
 		end loop;
 
-		-- Temp := 1;
-		-- A_Array(0) := 1;
-		-- Put(INTEGER'Image(INTEGER(A_Array(0))));
-
-		--Put(INTEGER'Image(INTEGER(Temp)));	--print BINARY_NUMBER
-		--Put(INTEGER(Temp));
 		if A_Array /= Zero_Array then
 			BTI := Bin_To_Int(A_Array);
 			else Put("ERROR: Number cannot be 0");
 		end if;
 
-		-- Put(BTI);
+		Put(BTI);
 		-- B_Array := Int_To_Bin;
 		-- Print_Bin_Arr(B_Array); 
 		-- C_Array := Plus_Overload(A_Array : B_Array);
