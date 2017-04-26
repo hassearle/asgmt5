@@ -1,10 +1,11 @@
 --[1] https://en.wikibooks.org/wiki/Ada_Programming/Control#for_loop
 --[2] https://www-users.cs.york.ac.uk/~andy/lrm95/a_05_02.htm 
 --		(see 56, 58)
+--[3] http://www.cs.fsu.edu/~baker/ada/examples/enums.adb
 
-with Ada.Text_IO, Ada.Integer_Text_IO, 
-		Ada.Numerics.discrete_Random;
-use Ada.Text_IO, Ada.Integer_Text_IO;
+with Ada.Text_IO, Ada.Integer_Text_IO,Ada.Numerics.discrete_Random,
+		Ada.Strings.Unbounded;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Strings.Unbounded;
 
 procedure Main is
 	
@@ -12,13 +13,14 @@ procedure Main is
 	type BINARY_NUMBER is range 0..1;
 	type BINARY_ARRAY is array(INTEGER range 0..15) of BINARY_NUMBER;
 
+	Zero_Array: BINARY_ARRAY := (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	-- A_Int : INTEGER;
 	A_Array: BINARY_ARRAY;
 	Temp : BINARY_NUMBER;
 	-- B_Array: BINARY_ARRAY;
 	-- C_Array: BINARY_ARRAY;
 	-- D_Array: BINARY_ARRAY;
-	-- BTI : INTEGER;
+	BTI : INTEGER;
 	-- ITB : BINARY_ARRAY;
 
 
@@ -69,15 +71,95 @@ procedure Main is
    --IMPLEMENTATION 
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+
 		function Bin_To_Int(X : BINARY_ARRAY) return INTEGER is
-			Temp : INTEGER;
-			begin
-				Temp := 1;
-				return Temp; 
+			Int : INTEGER;
+			Intt: INTEGER;
+				begin
+
+				for I in BINARY_ARRAY'Range loop
+					if X(I) = 1 then
+						Intt := 15 - I;
+						Int := Int + 2**(Intt);
+					--else Int := 0;
+					end if;
+					-- case X(I) is
+						-- 	when 0 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**15;
+						-- 		end if;
+						-- 	when 1 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**14;
+						-- 		end if;
+						-- 	when 2 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**13;
+						-- 		end if;
+						-- 	when 3 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**12;
+						-- 		end if;
+						-- 	when 4 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**11;
+						-- 		end if;
+						-- 	when 5 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**10;
+						-- 		end if;
+						-- 	when 6 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**9;
+						-- 		end if;
+						-- 	when 7 =>	
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**8;
+						-- 		end if;		
+						-- 	when 8 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**7;
+						-- 		end if;
+						-- 	when 9 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**6;
+						-- 		end if;
+						-- 	when 10 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**5;
+						-- 		end if;
+						-- 	when 11 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**4;
+						-- 		end if;
+						-- 	when 12 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**3;
+						-- 		end if;
+						-- 	when 13 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**2;
+						-- 		end if;
+						-- 	when 14 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**1;
+						-- 		end if;
+						-- 	when 15 =>
+						-- 		if X(I) = 1 then
+						-- 			Int := Int + Int**0;
+						-- 		end if;			
+						-- end case;
+				end loop;
+				-- if Int  null then
+				-- 	Int := 0;
+				-- end if;
+				Put(Int);
+				return Int; 
 			end Bin_To_Int;	
 
 
 		function Int_To_Bin(X : INTEGER) return BINARY_ARRAY is
+			--http://www.adacore.com/uploads_gems/gem_7.ada
 			Temp : BINARY_ARRAY;
 			begin
 				--Temp := BINARY_ARRAY(1);
@@ -98,7 +180,6 @@ procedure Main is
 				return Temp;
 			end Plus_Overload;		
 
-
 		function Minus_Overload(X,Y : BINARY_ARRAY) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
 			begin
@@ -106,14 +187,12 @@ procedure Main is
 				return Temp;
 			end Minus_Overload;	
 
-
 		function Minus_Overload(X : BINARY_ARRAY; Y : INTEGER) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
 			begin
 				--Temp := BINARY_ARRAY(1);
 				return Temp;
 			end Minus_Overload;
-
 
 		procedure Reverse_Bin_Arr(X : BINARY_ARRAY) is
 			Temp : INTEGER;
@@ -132,9 +211,6 @@ procedure Main is
      --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		-- random number generator
 		function Random_Number return BINARY_NUMBER is--SOURCE [2]
-			
-			--types for random number generator
-			
 			package Rand_Int is new Ada.Numerics.discrete_Random(BINARY_NUMBER);
 			use Rand_Int;
 			G : Generator;
@@ -145,19 +221,17 @@ procedure Main is
 				return NUM;
 			end Random_Number;
 	
-
 begin
 	
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
    --START OF MAIN
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-		Temp := Random_Number;
-
 
 		for I in BINARY_ARRAY'Range loop --SOURCE [1]
 			A_Array(I) := Random_Number;
-			Put(INTEGER'Image(INTEGER(A_Array(I))));
+			Put(INTEGER'Image(INTEGER(A_Array(I)))); --SOURCE [3]
+			Put_Line("");
 		end loop;
 
 		-- Temp := 1;
@@ -166,8 +240,11 @@ begin
 
 		--Put(INTEGER'Image(INTEGER(Temp)));	--print BINARY_NUMBER
 		--Put(INTEGER(Temp));
-		
-		-- BTI := Bin_To_Int(A_Array);
+		if A_Array /= Zero_Array then
+			BTI := Bin_To_Int(A_Array);
+			else Put("ERROR: Number cannot be 0");
+		end if;
+
 		-- Put(BTI);
 		-- B_Array := Int_To_Bin;
 		-- Print_Bin_Arr(B_Array); 
@@ -183,9 +260,7 @@ end Main;
 	
 	
 
-	-- for I in BINARY_ARRAY'Range loop --SOURCE [1]
-	-- 	A_Array(I) := Random_Number;
-	-- end loop;
+	
 
 
 
