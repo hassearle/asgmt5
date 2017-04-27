@@ -250,7 +250,7 @@ begin
 
 	   		--generates array
 			for I in BINARY_ARRAY'Range loop --SOURCE [1]
-				if I = 0 then  --limits array to < 32767 so section 4 can make a 
+				if I = 0 then  --limits array to < 32767 so section 5 can make a 
 								-- binary number from sum 
 					A_Array(I) := 0;
 					Put(INTEGER'Image(INTEGER(A_Array(I)))); --SOURCE [3]
