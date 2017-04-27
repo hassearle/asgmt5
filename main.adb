@@ -316,7 +316,6 @@ begin
 			Put(C_R_Sum, Width => 1);
 			Put_Line("");
 			Put("Current binary value of Array3: ");
-			Put_Line("");
 			D_Array := Plus_Overload(C_Array, Random_Int);
 			Print_Bin_Arr(D_Array);
 
