@@ -99,19 +99,14 @@ procedure Main is
 			Int : INTEGER;
 			Intt: INTEGER;
 				begin
-
 				for I in BINARY_ARRAY'Range loop
 					if X(I) = 1 then
 						Intt := 15 - I;
 						Int := Int + 2**(Intt);
 					end if;
 				end loop;
-				-- if Int  null then	--write an exception 
-				-- 	Int := 0;
-				-- end if;
 				return Int; 
 			end Bin_To_Int;	
-
 
 		function Int_To_Bin(X : INTEGER) return BINARY_ARRAY is --SOURCE[4]
 			Temp : BINARY_ARRAY;
@@ -208,14 +203,12 @@ procedure Main is
 		procedure Reverse_Bin_Arr(X : BINARY_ARRAY) is
 			Temp : BINARY_ARRAY;
 			begin
-				Temp := X;
-				-- for I in BINARY_ARRAY'Range  loop
-				-- 	X(15 - I) := BINARY_NUMBER(Temp(I));					
-				-- end loop;
+				for I in BINARY_ARRAY'Range  loop
+					if X(I) = 1 then Temp(I) := 0; end if;
+					if X(I) = 0 then Temp(I) := 1; end if;			
+				end loop;
 
-				-- for I in BINARY_ARRAY'Range  loop
-				-- 	Put(INTEGER'Image(INTEGER(X(I))));
-				-- end loop;
+				F_Array := Temp;
 			end Reverse_Bin_Arr;
 
 		procedure Print_Bin_Arr(X : BINARY_ARRAY) is
@@ -390,11 +383,13 @@ begin
 			Print_Bin_Arr(F_Array);
    		--section 7----------------------------------------------------------
 
-		-- Put_Line(C_Array);
-		-- D_Array := Minus_Overload(A_Array : B_Array);
-		-- Put_Line(D_Array);
-		-- Reverse_Bin_Arr(D_Array);
-		-- Put_Line(D_Array);
+   		--section 8----------------------------------------------------------
+   			Reverse_Bin_Arr(F_Array);
+   			Put_Line("");
+	   		Put_Line("");
+	   		Put_Line("Reversing and printing F_Array");
+   			Print_Bin_Arr(F_Array);
+   		--section 8----------------------------------------------------------
 
 end Main;
 
