@@ -16,8 +16,10 @@ procedure Main is
 	type BINARY_ARRAY is array(INTEGER range 0..15) of BINARY_NUMBER;
 
 	A_B_Sum : INTEGER;
+	A_B_Dif : INTEGER;
 	C_R_Sum : INTEGER;
-	Random_Int: Integer;
+	A_Random_Int: Integer;
+	B_Random_Int: Integer;	
 	Zero_Array: BINARY_ARRAY := (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	-- A_Int : INTEGER;
 	A_Array: BINARY_ARRAY;
@@ -25,6 +27,7 @@ procedure Main is
 	B_Array: BINARY_ARRAY;
 	C_Array: BINARY_ARRAY;
 	D_Array: BINARY_ARRAY;
+	E_Array: BINARY_ARRAY;
 	BTI : INTEGER;
 	-- ITB : BINARY_ARRAY;
 
@@ -175,9 +178,17 @@ procedure Main is
 
 		function Minus_Overload(X,Y : BINARY_ARRAY) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
+			Temp_Plus_One : BINARY_ARRAY;
+			Add_One_Array : BINARY_ARRAY := (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1);
+			Final_Diff : BINARY_ARRAY;
 			begin
-				--Temp := BINARY_ARRAY(1);
-				return Temp;
+				for I in BINARY_ARRAY'Range loop
+					if Y(I) = 1 then Temp(I) := 0; end if;
+					if Y(I) = 0 then Temp(I) := 1; end if;					
+				end loop;
+				Temp_Plus_One := Plus_Overload(Temp, Add_One_Array);
+				Final_Diff := Plus_Overload(X, Temp_Plus_One);
+				return Final_Diff;
 			end Minus_Overload;	
 
 		function Minus_Overload(X : BINARY_ARRAY; Y : INTEGER) return BINARY_ARRAY is
@@ -207,9 +218,9 @@ procedure Main is
 				end loop;
 			end Print_Bin_Arr; 
 
-    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    -- HELPER FUNCTIONS
-    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        -- HELPER FUNCTIONS
+        --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		
 		-- random binary number generator
 		function Random_Binary return BINARY_NUMBER is--SOURCE [2]
@@ -274,19 +285,19 @@ begin
    		--------------------------------------------------------------
 
    		--section 3----------------------------------------------------------
-	   		Random_Int := Random_Number;
-	   		B_Array := Int_To_Bin(Random_Int);
+	   		A_Random_Int := Random_Number;
+	   		B_Array := Int_To_Bin(A_Random_Int);
 	   		Put_Line("");	
 	   		Put_Line("");
 	   		Put("Printing Array created from Int_To_Bin function: Int_To_Bin(");
-	   		Put (Random_Int, Width => 1);
+	   		Put (A_Random_Int, Width => 1);
 	   		Put_Line(")"); 
 			Print_Bin_Arr(B_Array); 
    		--------------------------------------------------------------
 
    		--section 4----------------------------------------------------------
 			C_Array := Plus_Overload(A_Array , B_Array);
-			A_B_Sum := BTI + Random_Int; 
+			A_B_Sum := BTI + A_Random_Int; 
    			Put_Line("");	
 	   		Put_Line("");
 	   		Put_Line("Printing value of A_Array + B_Array, first + overload");
@@ -294,7 +305,7 @@ begin
 			Put(BTI, Width => 1);
 			Put_Line("");
 			Put("Int value of B_Array: ");   
-			Put (Random_Int, Width => 1);
+			Put (A_Random_Int, Width => 1);
 			Put_Line("");
 			Put("Int value of C_Array: ");
 			Put(A_B_Sum, Width => 1);
@@ -304,24 +315,39 @@ begin
    		--------------------------------------------------------------
 
    		--section 5----------------------------------------------------------
-	   		Random_Int := Random_Number;
-		   	C_R_Sum := A_B_Sum + Random_Int;
-		   	
+	   		B_Random_Int := Random_Number;
+		   	C_R_Sum := A_B_Sum + B_Random_Int;
+			D_Array := Plus_Overload(C_Array, B_Random_Int);
 	   		Put_Line("");
 	   		Put_Line("");
 	   		Put("Printing value of Int_To_Bin(");
-			Put (Random_Int, Width => 1);
+			Put(B_Random_Int, Width => 1);
 	   		Put_Line(") + C_Array, second + overload");
-	   		Put("Int value of C_Array after addition: ");
+	   		Put("Int value of D_Array after addition: ");
 			Put(C_R_Sum, Width => 1);
 			Put_Line("");
-			Put("Current binary value of Array3: ");
-			D_Array := Plus_Overload(C_Array, Random_Int);
+			Put("Current binary value of ArrayD: ");
 			Print_Bin_Arr(D_Array);
+   		--section 5----------------------------------------------------------
 
-
-
-
+   		--section 6----------------------------------------------------------
+   			A_B_Dif := BTI - A_Random_Int;
+   			E_Array := Minus_Overload(A_Array, B_Array);
+   			Put_Line("");
+	   		Put_Line("");
+   			Put_Line("Printing value of A_Array - B_Array, first - overload");
+			Put("Int value of A_Array: ");
+			Put(BTI, Width => 1);
+			Put_Line("");
+			Put("Int value of B_Array: ");
+			Put(A_Random_Int, Width => 1);
+			Put_Line("");
+			Put("Int value of E_Array (Note, this value will be incorrect if first number is smaller than second): ");
+			Put(A_B_Dif, Width => 1);
+			Put_Line("");
+			Put_Line("Binary value of E_Array");
+			Print_Bin_Arr(E_Array);
+   		--section 6----------------------------------------------------------
 
 		-- Put_Line(C_Array);
 		-- D_Array := Minus_Overload(A_Array : B_Array);
