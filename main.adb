@@ -4,6 +4,7 @@
 --[3] http://www.cs.fsu.edu/~baker/ada/examples/enums.adb
 --[4] http://www.wikihow.com/Convert-from-Decimal-to-Binary
 --[5] https://en.wikibooks.org/wiki/Ada_Programming/Control
+--[6] http://www.wikihow.com/Subtract-Binary-Numbers
 
 with Ada.Text_IO, Ada.Integer_Text_IO,Ada.Numerics.discrete_Random,
 		Ada.Strings.Unbounded;
@@ -15,11 +16,14 @@ procedure Main is
 	type BINARY_NUMBER is range 0..1;
 	type BINARY_ARRAY is array(INTEGER range 0..15) of BINARY_NUMBER;
 
-	A_B_Sum : INTEGER;
-	A_B_Dif : INTEGER;
-	C_R_Sum : INTEGER;
+	A_B_Sum : INTEGER; --A_Array + B_Array
+	A_B_Dif : INTEGER; --A_Array - B_Array
+	A_R_Sum : INTEGER; --A_Array + Random Integer 
+	R_A_Dif : INTEGER; --Random Integer - A_Array
+	C_R_Sum : INTEGER; --C_Array + Random Integer 
 	A_Random_Int: Integer;
-	B_Random_Int: Integer;	
+	B_Random_Int: Integer;
+	C_Random_Int: Integer;	
 	Zero_Array: BINARY_ARRAY := (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	-- A_Int : INTEGER;
 	A_Array: BINARY_ARRAY;
@@ -28,6 +32,7 @@ procedure Main is
 	C_Array: BINARY_ARRAY;
 	D_Array: BINARY_ARRAY;
 	E_Array: BINARY_ARRAY;
+	F_Array: BINARY_ARRAY;
 	BTI : INTEGER;
 	-- ITB : BINARY_ARRAY;
 
@@ -80,6 +85,8 @@ procedure Main is
 		function Random_Binary return BINARY_NUMBER;
 
 		function Random_Number return INTEGER;
+
+		function Top_Random_Number return INTEGER;
 
 
 	
@@ -170,12 +177,12 @@ procedure Main is
 
 		function Plus_Overload(X : BINARY_ARRAY; Y : INTEGER) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
-			Temp1 : BINARY_ARRAY;
 			begin
 				Temp := Int_To_Bin(Y);
 				return Plus_Overload(X, Temp);
 			end Plus_Overload;		
 
+		-- SOURCE [6]
 		function Minus_Overload(X,Y : BINARY_ARRAY) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
 			Temp_Plus_One : BINARY_ARRAY;
@@ -194,8 +201,8 @@ procedure Main is
 		function Minus_Overload(X : BINARY_ARRAY; Y : INTEGER) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
 			begin
-				--Temp := BINARY_ARRAY(1);
-				return Temp;
+				Temp := Int_To_Bin(Y);
+				return Minus_Overload(Temp, X);
 			end Minus_Overload;
 
 		procedure Reverse_Bin_Arr(X : BINARY_ARRAY) is
@@ -236,7 +243,7 @@ procedure Main is
 
 		-- random integer number generator 
 		function Random_Number return INTEGER is
-			type NUM is range 0..32767; --half so that 
+			type NUM is range 0..32767; --half so that sums can be binary
 			NUMM : NUM; 
 			INT : INTEGER;
 			package Rand_Int is new Ada.Numerics.discrete_Random(NUM);
@@ -248,6 +255,21 @@ procedure Main is
 				INT := INTEGER(NUMM);
 				return INT;
 			end Random_Number;
+
+		-- high random integer number generator 
+		function Top_Random_Number return INTEGER is
+			type NUM is range 32767..65535; 
+			NUMM : NUM; 
+			INT : INTEGER;
+			package Rand_Int is new Ada.Numerics.discrete_Random(NUM);
+			use Rand_Int;
+			G : Generator;
+			begin -- Random_Number
+				Reset(G);
+				NUMM := Random(G);
+				INT := INTEGER(NUMM);
+				return INT;
+			end Top_Random_Number;
 
 begin
 	
@@ -348,6 +370,25 @@ begin
 			Put_Line("Binary value of E_Array");
 			Print_Bin_Arr(E_Array);
    		--section 6----------------------------------------------------------
+
+   		--section 7----------------------------------------------------------
+	   		C_Random_Int := Top_Random_Number;
+	   		R_A_Dif := C_Random_Int - BTI;
+	   		F_Array := Minus_Overload(A_Array, C_Random_Int);
+	   		Put_Line("");
+	   		Put_Line("");
+	   		Put("Printing value of Int_To_Bin(");
+	   		Put(C_Random_Int, Width => 1);
+	   		Put_Line(") - A_Array, second - overload");
+			Put("Int value of A_Array: ");
+			Put(BTI, Width => 1);
+			Put_Line("");
+			Put("Int value of F_Array after modification: ");
+			Put(R_A_Dif, Width => 1);
+			Put_Line("");
+			Put_Line("Binary value of F_Array");
+			Print_Bin_Arr(F_Array);
+   		--section 7----------------------------------------------------------
 
 		-- Put_Line(C_Array);
 		-- D_Array := Minus_Overload(A_Array : B_Array);
