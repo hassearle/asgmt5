@@ -2,6 +2,7 @@
 --[2] https://www-users.cs.york.ac.uk/~andy/lrm95/a_05_02.htm 
 --		(see 56, 58)
 --[3] http://www.cs.fsu.edu/~baker/ada/examples/enums.adb
+--[4] http://www.wikihow.com/Convert-from-Decimal-to-Binary
 
 with Ada.Text_IO, Ada.Integer_Text_IO,Ada.Numerics.discrete_Random,
 		Ada.Strings.Unbounded;
@@ -13,11 +14,12 @@ procedure Main is
 	type BINARY_NUMBER is range 0..1;
 	type BINARY_ARRAY is array(INTEGER range 0..15) of BINARY_NUMBER;
 
+	Random_Int: Integer;
 	Zero_Array: BINARY_ARRAY := (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	-- A_Int : INTEGER;
 	A_Array: BINARY_ARRAY;
 	Temp : BINARY_NUMBER;
-	-- B_Array: BINARY_ARRAY;
+	B_Array: BINARY_ARRAY;
 	-- C_Array: BINARY_ARRAY;
 	-- D_Array: BINARY_ARRAY;
 	BTI : INTEGER;
@@ -96,18 +98,52 @@ procedure Main is
 			end Bin_To_Int;	
 
 
-		function Int_To_Bin(X : INTEGER) return BINARY_ARRAY is
-			--http://www.adacore.com/uploads_gems/gem_7.ada
+		function Int_To_Bin(X : INTEGER) return BINARY_ARRAY is --SOURCE[4]
 			Temp : BINARY_ARRAY;
+			Divided : INTEGER;
+			Remainder : INTEGER;
 			begin
-				--Temp := BINARY_ARRAY(1);
+				Divided := X;
+				for I in BINARY_ARRAY'Range loop
+					if Divided rem 2 = 0 then
+						Remainder := 0;
+						else Remainder := 1;
+					end if;
+					Divided := Divided / 2;
+					Temp(15 - I) := BINARY_NUMBER(Remainder);
+				end loop;
 				return Temp;
 			end Int_To_Bin;	
 			
 		function Plus_Overload(First, Second : BINARY_ARRAY) return BINARY_ARRAY is
 			Temp : BINARY_ARRAY;
+			Remain : BINARY_NUMBER := 0;
 			begin
-				--Temp := BINARY_ARRAY(1);
+				for I in BINARY_ARRAY'Range loop
+					if First(15 - I) = 1 and Second(15 - I) = 1 then
+					 	elsif Remain = 0 then
+
+					 	elsif Remain = 1 then
+					 		
+					 end if;
+
+					if (First(15 - I) = 0 and Second(15 - I) = 1) or 
+						(First(15 - I) = 1 and Second(15 - I) = 0)
+						 then
+					 	elsif Remain = 0 then
+
+					 	elsif Remain = 1 then
+					 		
+					 end if; 
+
+					if First(15 - I) = 0 and Second(15 - I) = 0 then
+					 	elsif Remain = 0 then
+
+					 	elsif Remain = 1 then
+					 		
+					 end if;
+					
+				end loop;
 				return Temp;
 			end Plus_Overload;
 
@@ -133,17 +169,23 @@ procedure Main is
 			end Minus_Overload;
 
 		procedure Reverse_Bin_Arr(X : BINARY_ARRAY) is
-			Temp : INTEGER;
+			Temp : BINARY_ARRAY;
 			begin
-				Temp := 1;
+				Temp := X;
+				-- for I in BINARY_ARRAY'Range  loop
+				-- 	X(15 - I) := BINARY_NUMBER(Temp(I));					
+				-- end loop;
 
+				-- for I in BINARY_ARRAY'Range  loop
+				-- 	Put(INTEGER'Image(INTEGER(X(I))));
+				-- end loop;
 			end Reverse_Bin_Arr;
 
 		procedure Print_Bin_Arr(X : BINARY_ARRAY) is
-			Temp : INTEGER;
 			begin
-			 	Temp := 1;
-
+			for I in BINARY_ARRAY'Range  loop
+					Put(INTEGER'Image(INTEGER(X(I))));
+				end loop;
 			end Print_Bin_Arr; 
 
      --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -183,24 +225,38 @@ begin
    --START OF MAIN
    --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-   		--generates array
-		Put("Printing Random Array A_Array");
-		Put_Line("");
+   		--------------------------------------------------------------
+			Put("Printing Random Array A_Array");
+			Put_Line("");
 
-		for I in BINARY_ARRAY'Range loop --SOURCE [1]
-			A_Array(I) := Random_Binary;
-			Put(INTEGER'Image(INTEGER(A_Array(I)))); --SOURCE [3]
-			--Put_Line("");
-		end loop;
+	   		--generates array
+			for I in BINARY_ARRAY'Range loop --SOURCE [1]
+				A_Array(I) := Random_Binary;
+				Put(INTEGER'Image(INTEGER(A_Array(I)))); --SOURCE [3]
+			end loop;
+   		--------------------------------------------------------------
 
-		if A_Array /= Zero_Array then
-			BTI := Bin_To_Int(A_Array);
-			else Put("ERROR: Number cannot be 0");
-		end if;
+   		--------------------------------------------------------------
+	   		Put_Line("");	
+	   		Put_Line("");
+	   		Put_Line("Printing Integer value of A_Array"); 
+	   		--prints integer equilivant of the previously generated array
+			if A_Array /= Zero_Array then
+				BTI := Bin_To_Int(A_Array);
+				else Put("0");
+			end if;
+			Put(BTI);
+   		--------------------------------------------------------------
 
-		Put(BTI);
-		-- B_Array := Int_To_Bin;
-		-- Print_Bin_Arr(B_Array); 
+   		--------------------------------------------------------------
+	   		Put_Line("");	
+	   		Put_Line("");
+	   		Put("Printing Array created from Int_To_Bin function: Int_To_Bin(");
+	   		Random_Int := Random_Number;
+	   		Put (Random_Int, Width => 1);
+	   		Put_Line(")"); 
+	   		B_Array := Int_To_Bin(Random_Int);
+			Print_Bin_Arr(B_Array); 
 		-- C_Array := Plus_Overload(A_Array : B_Array);
 		-- Put_Line(C_Array);
 		-- D_Array := Minus_Overload(A_Array : B_Array);
